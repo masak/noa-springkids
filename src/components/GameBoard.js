@@ -311,9 +311,18 @@ class GameBoard extends React.Component {
         {colHeadings}
         {rowHeadings}
         {circles}
-        <BlackStone x="850" y="150" chooseVerb={() => this.chooseVerb(0)} />
-        <WhiteStone x="950" y="350" chooseVerb={() => this.chooseVerb(1)} />
-        <RemoveStoneX x="1050" y="550" chooseVerb={() => this.chooseVerb(2)} />
+        <BlackStone x="850"
+                    y="150"
+                    chooseVerb={() => this.chooseVerb(BLACK)}
+        />
+        <WhiteStone x="950"
+                    y="350"
+                    chooseVerb={() => this.chooseVerb(WHITE)}
+        />
+        <RemoveStoneX x="1050"
+                      y="550"
+                      chooseVerb={() => this.chooseVerb(EMPTY)}
+        />
         {stones}
       </svg>
     );

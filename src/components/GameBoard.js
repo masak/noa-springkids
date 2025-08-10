@@ -1,4 +1,5 @@
 import React from 'react';
+import { Fragment } from 'react';
 
 const N = 5;
 
@@ -6,6 +7,39 @@ const N = 5;
 function ken(condition) {
   return condition ? 1 : 0;
 }
+
+const BlackStone = (props) => (
+  <circle cx={props.x} cy={props.y} r="35" fill="black" stroke="none" />
+);
+
+const WhiteStone = (props) => (
+  <circle cx={props.x}
+          cy={props.y}
+          r="35"
+          fill="white"
+          stroke="black"
+          strokeWidth="6"
+  />
+);
+
+const RemoveStoneX = (props) => (
+  <Fragment>
+    <line x1={Number(props.x) - 30}
+          y1={Number(props.y) - 30}
+          x2={Number(props.x) + 30}
+          y2={Number(props.y) + 30}
+          stroke="black"
+          strokeWidth="6"
+    />
+    <line x1={Number(props.x) - 30}
+          y1={Number(props.y) + 30}
+          x2={Number(props.x) + 30}
+          y2={Number(props.y) - 30}
+          stroke="black"
+          strokeWidth="6"
+    />
+  </Fragment>
+);
 
 class GameBoard extends React.Component {
   render(props) {
@@ -166,10 +200,9 @@ class GameBoard extends React.Component {
         {colHeadings}
         {rowHeadings}
         {circles}
-        <circle cx="850" cy="150" r="35" fill="black" stroke="none" />
-        <circle cx="950" cy="350" r="35" fill="white" stroke="black" strokeWidth="6" />
-        <line x1="1020" y1="520" x2="1080" y2="580" stroke="black" strokeWidth="6" />
-        <line x1="1020" y1="580" x2="1080" y2="520" stroke="black" strokeWidth="6" />
+        <BlackStone x="850" y="150" />
+        <WhiteStone x="950" y="350" />
+        <RemoveStoneX x="1050" y="550" />
       </svg>
     );
   }

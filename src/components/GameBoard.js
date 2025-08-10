@@ -2,6 +2,9 @@ import React from 'react';
 import { Fragment } from 'react';
 
 const N = 5;
+const BLACK = 0;
+const WHITE = 1;
+const EMPTY = 2;
 
 // Returns 1 for a true input and 0 for a false input
 function ken(condition) {
@@ -62,11 +65,21 @@ const RemoveStoneX = (props) => {
 class GameBoard extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { verb: undefined };
+    this.state = {
+      verb: undefined,
+      stones: new Array(N * N),
+    };
   }
 
   chooseVerb(index) {
     this.setState({ verb: index });
+  }
+
+  setStone(index) {
+    let stones = [...this.state.stones];
+    stones[index] = this.state.verb;
+    console.log(`Setting index ${index} to ${this.state.verb}`);
+    this.setState({ stones });
   }
 
   render(props) {
@@ -255,6 +268,39 @@ class GameBoard extends React.Component {
       );
     }
 
+    let stoneCoords = [];
+    for (let i = 0; i < N; i++) {
+      for (let j = 0; j < N; j++) {
+        stoneCoords.push([150 + 50 * i + 100 * j, 150 + 100 * i]);
+      }
+    }
+
+    let stones = [];
+    for (let [index, [x, y]] of stoneCoords.entries()) {
+      let color = this.state.stones[index];
+      let fill = (color === BLACK)
+        ? "black"
+        : (color === WHITE)
+          ? "white"
+          : "#ddd";
+      let stroke = (color === BLACK)
+        ? "none"
+        : (color === WHITE)
+          ? "black"
+          : "none";
+      stones.push(
+        <circle key={index}
+                cx={x}
+                cy={y}
+                r="35"
+                fill={fill}
+                stroke={stroke}
+                strokeWidth="6"
+                onClick={() => this.setStone(index)}
+        />
+      );
+    }
+
     return (
       <svg width="12cm" height="7cm" viewBox="-10 -10 1210 720"
         xmlns="http://www.w3.org/2000/svg" version="1.1">
@@ -268,6 +314,7 @@ class GameBoard extends React.Component {
         <BlackStone x="850" y="150" chooseVerb={() => this.chooseVerb(0)} />
         <WhiteStone x="950" y="350" chooseVerb={() => this.chooseVerb(1)} />
         <RemoveStoneX x="1050" y="550" chooseVerb={() => this.chooseVerb(2)} />
+        {stones}
       </svg>
     );
   }

@@ -46,7 +46,8 @@ class GameBoard extends React.Component {
     let horizontalLines = [];
     for (let x = 0; x <= 1200; x += 100) {
       horizontalLines.push(
-        <line x1={x}
+        <line key={x}
+              x1={x}
               y1="-10"
               x2={x}
               y2="710"
@@ -59,7 +60,8 @@ class GameBoard extends React.Component {
     let verticalLines = [];
     for (let y = 0; y <= 700; y += 100) {
       verticalLines.push(
-        <line x1="-10"
+        <line key={y}
+              x1="-10"
               y1={y}
               x2="1210"
               y2={y}
@@ -79,7 +81,8 @@ class GameBoard extends React.Component {
     let verticalWalls = [];
     for (let [x, y] of verticalWallCoords) {
       verticalWalls.push(
-        <line x1={x}
+        <line key={x + ";" + y}
+              x1={x}
               y1={y - 35}
               x2={x}
               y2={y + 35}
@@ -100,7 +103,8 @@ class GameBoard extends React.Component {
     let slashWalls = [];
     for (let [x, y] of slashWallCoords) {
       slashWalls.push(
-        <line x1={x - 25}
+        <line key={x + ";" + y}
+              x1={x - 25}
               y1={y + 15}
               x2={x + 25}
               y2={y - 15}
@@ -121,7 +125,8 @@ class GameBoard extends React.Component {
     let backslashWalls = [];
     for (let [x, y] of backslashWallCoords) {
       backslashWalls.push(
-        <line x1={x - 25}
+        <line key={x + ";" + y}
+              x1={x - 25}
               y1={y - 15}
               x2={x + 25}
               y2={y + 15}
@@ -149,7 +154,8 @@ class GameBoard extends React.Component {
         `L ${x - 50} ${y + 35} ` +
         `z`;
       cells.push(
-        <path d={d}
+        <path key={x + ";" + y}
+              d={d}
               fill="#ddd"
               stroke="none"
         />
@@ -167,7 +173,8 @@ class GameBoard extends React.Component {
     let colHeadings = [];
     for (let [letter, x, y] of colHeadingCoords) {
       colHeadings.push(
-        <text x={x}
+        <text key={letter}
+              x={x}
               y={y}
               textAnchor="middle"
               fontFamily="Verdana"
@@ -187,7 +194,8 @@ class GameBoard extends React.Component {
     let rowHeadings = [];
     for (let [digit, x, y] of rowHeadingCoords) {
       rowHeadings.push(
-        <text x={x}
+        <text key={digit}
+              x={x}
               y={y}
               textAnchor="middle"
               dominantBaseline="middle"
@@ -205,7 +213,8 @@ class GameBoard extends React.Component {
     let circles = [];
     for (let [x, y] of circleCoords) {
       circles.push(
-        <circle cx={x}
+        <circle key={x + ";" + y}
+                cx={x}
                 cy={y}
                 r="75"
                 fill="#ddd"

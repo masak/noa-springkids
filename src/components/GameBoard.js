@@ -8,40 +8,67 @@ function ken(condition) {
   return condition ? 1 : 0;
 }
 
-const BlackStone = (props) => (
-  <circle cx={props.x} cy={props.y} r="35" fill="black" stroke="none" />
-);
-
-const WhiteStone = (props) => (
-  <circle cx={props.x}
-          cy={props.y}
-          r="35"
-          fill="white"
-          stroke="black"
-          strokeWidth="6"
-  />
-);
-
-const RemoveStoneX = (props) => (
-  <Fragment>
-    <line x1={Number(props.x) - 30}
-          y1={Number(props.y) - 30}
-          x2={Number(props.x) + 30}
-          y2={Number(props.y) + 30}
-          stroke="black"
-          strokeWidth="6"
+const BlackStone = (props) => {
+  let chooseVerb = props.chooseVerb || (() => {});
+  return (
+    <circle cx={props.x}
+            cy={props.y}
+            r="35"
+            fill="black"
+            stroke="none"
+            onClick={chooseVerb}
     />
-    <line x1={Number(props.x) - 30}
-          y1={Number(props.y) + 30}
-          x2={Number(props.x) + 30}
-          y2={Number(props.y) - 30}
-          stroke="black"
-          strokeWidth="6"
+  );
+};
+
+const WhiteStone = (props) => {
+  let chooseVerb = props.chooseVerb || (() => {});
+  return (
+    <circle cx={props.x}
+            cy={props.y}
+            r="35"
+            fill="white"
+            stroke="black"
+            strokeWidth="6"
+            onClick={chooseVerb}
     />
-  </Fragment>
-);
+  );
+};
+
+const RemoveStoneX = (props) => {
+  let chooseVerb = props.chooseVerb || (() => {});
+  return (
+    <Fragment>
+      <line x1={Number(props.x) - 30}
+            y1={Number(props.y) - 30}
+            x2={Number(props.x) + 30}
+            y2={Number(props.y) + 30}
+            stroke="black"
+            strokeWidth="6"
+            onClick={chooseVerb}
+      />
+      <line x1={Number(props.x) - 30}
+            y1={Number(props.y) + 30}
+            x2={Number(props.x) + 30}
+            y2={Number(props.y) - 30}
+            stroke="black"
+            strokeWidth="6"
+            onClick={chooseVerb}
+      />
+    </Fragment>
+  );
+};
 
 class GameBoard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { verb: undefined };
+  }
+
+  chooseVerb(index) {
+    this.setState({ verb: index });
+  }
+
   render(props) {
     let horizontalLines = [];
     for (let x = 0; x <= 1200; x += 100) {
@@ -211,15 +238,19 @@ class GameBoard extends React.Component {
     }
 
     let circles = [];
-    for (let [x, y] of circleCoords) {
+    for (let [index, [x, y]] of circleCoords.entries()) {
+      let fillColor = (this.state.verb === index)
+        ? "#666"
+        : "#ddd";
       circles.push(
         <circle key={x + ";" + y}
                 cx={x}
                 cy={y}
                 r="75"
-                fill="#ddd"
+                fill={fillColor}
                 stroke="black"
                 strokeWidth="6"
+                onClick={() => this.chooseVerb(index)}
         />
       );
     }
@@ -234,9 +265,9 @@ class GameBoard extends React.Component {
         {colHeadings}
         {rowHeadings}
         {circles}
-        <BlackStone x="850" y="150" />
-        <WhiteStone x="950" y="350" />
-        <RemoveStoneX x="1050" y="550" />
+        <BlackStone x="850" y="150" chooseVerb={() => this.chooseVerb(0)} />
+        <WhiteStone x="950" y="350" chooseVerb={() => this.chooseVerb(1)} />
+        <RemoveStoneX x="1050" y="550" chooseVerb={() => this.chooseVerb(2)} />
       </svg>
     );
   }

@@ -55,7 +55,7 @@ class GameBoard extends React.Component {
         />
       );
     }
-  
+
     let verticalLines = [];
     for (let y = 0; y <= 700; y += 100) {
       verticalLines.push(
@@ -68,14 +68,14 @@ class GameBoard extends React.Component {
         />
       );
     }
-  
+
     let verticalWallCoords = [];
     for (let i = 0; i < N; i++) {
       for (let j = 0; j <= N; j++) {
         verticalWallCoords.push([100 + 50 * i + 100 * j, 150 + 100 * i]);
       }
     }
-  
+
     let verticalWalls = [];
     for (let [x, y] of verticalWallCoords) {
       verticalWalls.push(
@@ -89,14 +89,14 @@ class GameBoard extends React.Component {
         />
       );
     }
-  
+
     let slashWallCoords = [];
     for (let i = 0; i <= N; i++) {
       for (let j = 0; j < N; j++) {
         slashWallCoords.push([125 + 50 * i + 100 * j, 100 + 100 * i]);
       }
     }
-  
+
     let slashWalls = [];
     for (let [x, y] of slashWallCoords) {
       slashWalls.push(
@@ -110,14 +110,14 @@ class GameBoard extends React.Component {
         />
       );
     }
-  
+
     let backslashWallCoords = [];
     for (let i = 0; i <= N; i++) {
       for (let j = ken(i === 0); j <= N - ken(i === N); j++) {
         backslashWallCoords.push([75 + 50 * i + 100 * j, 100 + 100 * i]);
       }
     }
-  
+
     let backslashWalls = [];
     for (let [x, y] of backslashWallCoords) {
       backslashWalls.push(
@@ -131,7 +131,31 @@ class GameBoard extends React.Component {
         />
       );
     }
-  
+
+    let cellCoords = [];
+    for (let i = 0; i < N; i++) {
+      for (let j = 0; j < N; j++) {
+        cellCoords.push([150 + 50 * i + 100 * j, 150 + 100 * i]);
+      }
+    }
+
+    let cells = [];
+    for (let [x, y] of cellCoords) {
+      let d = `M ${x - 50} ${y - 35} ` +
+        `L ${x} ${y - 65} ` +
+        `L ${x + 50} ${y - 35} ` +
+        `L ${x + 50} ${y + 35} ` +
+        `L ${x} ${y + 65} ` +
+        `L ${x - 50} ${y + 35} ` +
+        `z`;
+      cells.push(
+        <path d={d}
+              fill="#ddd"
+              stroke="none"
+        />
+      );
+    }
+
     let colHeadingCoords = [];
     for (let i = 0; i < N; i++) {
       let letter = String.fromCharCode("a".charCodeAt(0) + i);
@@ -139,7 +163,7 @@ class GameBoard extends React.Component {
       let y = 60;
       colHeadingCoords.push([letter, x, y]);
     }
-  
+
     let colHeadings = [];
     for (let [letter, x, y] of colHeadingCoords) {
       colHeadings.push(
@@ -151,7 +175,7 @@ class GameBoard extends React.Component {
         >{letter}</text>
       );
     }
-  
+
     let rowHeadingCoords = [];
     for (let i = 0; i < N; i++) {
       let digit = String(i + 1);
@@ -159,7 +183,7 @@ class GameBoard extends React.Component {
       let y = 150 + 100 * i;
       rowHeadingCoords.push([digit, x, y]);
     }
-  
+
     let rowHeadings = [];
     for (let [digit, x, y] of rowHeadingCoords) {
       rowHeadings.push(
@@ -172,28 +196,29 @@ class GameBoard extends React.Component {
         >{digit}</text>
       );
     }
-  
+
     let circleCoords = [];
     for (let i = 0; i < 3; i++) {
       circleCoords.push([850 + i * 100, 150 + i * 200]);
     }
-  
+
     let circles = [];
     for (let [x, y] of circleCoords) {
       circles.push(
         <circle cx={x}
                 cy={y}
                 r="75"
-                fill="white"
+                fill="#ddd"
                 stroke="black"
                 strokeWidth="6"
         />
       );
     }
-  
+
     return (
       <svg width="12cm" height="7cm" viewBox="-10 -10 1210 720"
         xmlns="http://www.w3.org/2000/svg" version="1.1">
+        {cells}
         {verticalWalls}
         {slashWalls}
         {backslashWalls}
